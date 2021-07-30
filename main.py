@@ -1,51 +1,48 @@
 import random
 from art import logo
 from replit import clear
-print("Welcome to the Number Guessing Game!")
+
+random_number = random.randint(1,100)
+
+easy_turns = 10
+hard_turns = 5
+
+def check(guess,random_number, attempts):
+  if guess > random_number:
+    print("too high! \nTry again!") 
+    return attempts - 1 
+  elif guess < random_number:
+    print("too low! \nTry again!")
+    return attempts - 1 
+  else:
+    print(f"you got it! The answer was {random_number}")
 
 
-def play():
-  print(logo)
-  random_number = random.randint(1,100)
+def level_difficulty():
+  user_level = input("Choose a difficulty.Type 'easy' or 'hard':")
+  if user_level == 'easy':
+    return easy_turns
+  elif user_level == 'hard':
+    return hard_turns
+
+def game():
+  print("Welcome to the Number Guessing Game!")
   print("I am thinking of a number between 1 and 100")
-  user_num = input("Choose a difficulty.Type 'easy' or 'hard':")
-  print(user_num)
-  if user_num == 'easy':
-    attempts = 10
-    while attempts >= 1:
-      print(f"you have {attempts} attempts remaining to guess the number.")
-      attempts -= 1
-      guess = int(input("guess the number:"))
-      if guess != random_number:
-        if guess > random_number:
-          print("too high \n Try again!")
-          print(f"you have {attempts} attempts remaining to guess the number.")
-        elif guess < random_number:
-          print("too low \n Try again!")
-          print(f"you have {attempts} attempts remaining to guess the number.")
-      else:
-        print("you got it! you won!")
-    print("you lose!")
-  if user_num == 'hard':
-    attempts = 5
-    print("you have 5 attempts remaining to guess the number.")
-    while attempts >= 1:
-      attempts -= 1
-      guess = int(input("guess the number:"))
-      if guess != random_number:
-        if guess < random_number:
-          print("too low\n Try again!")
-          print(f"you have {attempts} attempts remaining to guess the number.")
-        elif guess > random_number:
-          print("too high \n Try again!")
-          print(f"you have {attempts} attempts remaining to guess the number.")
-      else:
-        print("you got it! you won!")
-    print("you lose!")
-
+  print(f"psss. the correct number is {random_number}")
+  attempts = level_difficulty()
+  guess = 0
+  while guess != random_number:
+    print(f"you have {attempts} attempts remaining to guess the number")
+    guess = int(input("guess the number:"))
+    attempts = check(guess,random_number,attempts)
+    if attempts == 0:
+      print("You lost!")
+      return
+ 
+game()
 yes_no = input("type 'y' to play and 'n' to quit:")
 if yes_no == 'y':
   clear()
-  play()
+  game()
 else:
   print("sad to see you go!")
